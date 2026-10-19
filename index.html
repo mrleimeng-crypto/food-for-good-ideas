@@ -937,7 +937,7 @@ function renderStrip(){
     var b=h("button",{class:"clip",type:"button","aria-current":String(cur),"aria-label":dl(m.date)+" "+wd(m.date),onclick:function(){selectMeal(m.id)}},
       h("span",{class:"v",text:m.n?"Vol. "+String(m.n).padStart(2,"0"):"Clip"}),
       h("span",{class:"n num",text:(parse(m.date).getMonth()+1)+"/"+parse(m.date).getDate()}),
-      h("span",{class:"w"},wd(m.date),framesOf(m).length?h("i"):null));
+      h("span",{class:"w"},wd(m.date),(m.videos&&m.videos.length)?h("i"):null));
     host.append(b);
   });
   var c=host.querySelector('[aria-current="true"]');
