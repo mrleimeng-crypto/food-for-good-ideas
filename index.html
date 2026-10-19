@@ -569,7 +569,10 @@ function attendanceGrid(list,key,lab){
     g.append(h("span",{class:"rl",text:"週"+WD[dw]}));
     wk.forEach(function(w){
       var m=(weeks[w]||{})[dw];
-      if(!m){g.append(h("div",{class:"gc off","aria-hidden":"true"}));return}
+      if(!m){
+        var dd=parse(w);dd.setDate(dd.getDate()+((dw+6)%7));
+        var tip0=(dd.getMonth()+1)+"/"+dd.getDate()+" 週"+WD[dw]+" · 尚未填寫";
+        g.append(h("div",{class:"gc num nodata",title:tip0,"aria-label":tip0},h("span",{class:"dn",text:String(dd.getDate())}),"—"));return}
       var has=isNum(m[key]);
       var a=has&&max>0?0.14+0.86*(m[key]/max):0;
       var tip=dl(m.date)+" "+wd(m.date)+(has?" · "+lab+" "+m[key]+" 人":" · 尚未填寫");
