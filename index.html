@@ -374,12 +374,10 @@ textarea{min-height:104px;resize:vertical}
   <div class="band hero" data-view="works">
     <div class="wrap">
       <div class="hero-grid">
-        <p class="over"><i class="hl"></i>台南 · 友愛市場二樓</p>
+        <p class="over"><i class="hl"></i>Where good ideas come to eat.</p>
         <h1><span>Food for</span><span><em>Good Ideas.</em></span></h1>
-        <p class="tagline">Where good ideas come to eat.</p>
         <dl class="facts">
           <div><dt>地點</dt><dd>友愛市場二樓 · 好想工作室</dd></div>
-          <div><dt>開桌</dt><dd>每週二、週三</dd></div>
           <div><dt>下一餐</dt><dd class="next" id="nextMeal">&nbsp;</dd></div>
         </dl>
         <span class="vlabel hero-v">Tainan · Tue / Wed</span>
@@ -628,7 +626,7 @@ function renderData(){
   host.append(h("div",{class:"tiles"},tl));
   [["registered","Registered","每格是一餐,數字是報名人數,顏色越亮人越多。有相機標誌的格子可以點進去看照片。"],["attended","Attended","每格是一餐,數字是實際用餐人數,顏色越亮人越多。有相機標誌的格子可以點進去看照片。"]].forEach(function(c){
     if(!withData.some(function(m){return isNum(m[c[0]])}))return;
-    var p1=h("div",{class:"panel"},h("h3",null,c[1]),h("p",{class:"cap",text:c[2]}));
+    var p1=h("div",{class:"panel"},h("h3",null,c[1]));
     var sc=h("div",{class:"scroll"});sc.append(attendanceGrid(S.meals.filter(function(m){return m.date>=withData[0].date&&(m.date<=withData[withData.length-1].date||framesOf(m).length>0)}),c[0],c[0]==="registered"?"報名":"實到"));p1.append(sc);host.append(p1);
   });
   var rows2=withData.filter(function(m){return isNum(m.cost)||isNum(m.revenue)}).map(function(m){var d=parse(m.date);return {label:(d.getMonth()+1)+"/"+d.getDate(),v:{cost:m.cost,rev:m.revenue}}});
