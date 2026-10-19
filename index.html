@@ -363,7 +363,7 @@ textarea{min-height:104px;resize:vertical}
         <div class="hud-c">
           <div class="pg" id="pg" hidden><button type="button" id="pgPrev" aria-label="上一張">‹</button><span class="cnt num" id="pgCnt"></span><button type="button" id="pgNext" aria-label="下一張">›</button></div>
           <div class="fx" id="fx" role="group" aria-label="畫面特效"></div>
-          <button class="open-btn" type="button" id="openBtn">看這一餐 · 留言</button>
+          <button class="open-btn" type="button" id="openBtn">看這一餐</button>
         </div>
       </div>
     </div>
@@ -398,7 +398,7 @@ textarea{min-height:104px;resize:vertical}
     <div class="wrap">
       <div class="sh">
         <div class="t"><p class="over"><i class="hl"></i>Portfolio</p><h2>All <em>Clips</em></h2></div>
-        <p class="sub" id="worksSub">每一餐的照片、菜單與留言。</p>
+        <p class="sub" id="worksSub">每一餐的照片與菜單。</p>
         <div class="act"><a class="btn small" href="#works">← Back</a></div>
       </div>
       <div class="chips" id="months" role="group" aria-label="依月份篩選"></div>
@@ -498,7 +498,7 @@ function cardEl(m){
   var meta=[];
   if(isNum(m.attended))meta.push(h("span",{class:"num",text:"實到 "+m.attended+" 人"}));
   else if(isNum(m.registered))meta.push(h("span",{class:"num",text:"報名 "+m.registered+" 人"}));
-  var cc=commentCount(m.id);if(cc)meta.push(h("span",{class:"num",text:cc+" 則留言"}));
+  var cc=0;if(cc)meta.push(h("span",{class:"num",text:cc+" 則留言"}));
   var firstMenu=(m.menu||"").split("\n")[0];
   return h("button",{class:"card",type:"button",onclick:function(){openMeal(m.id)}},
     cover,
@@ -510,7 +510,7 @@ function cardEl(m){
 function renderGrid(){
   var host=$("#grid");clear(host);
   var list=S.meals.filter(function(m){return S.month==="all"||m.date.slice(0,7)===S.month});
-  $("#worksSub").textContent=S.meals.length?("已開桌 "+S.meals.length+" 餐。點開任一餐,看照片、菜單與大家的留言。"):"每一餐的照片、菜單與留言。";
+  $("#worksSub").textContent=S.meals.length?("已開桌 "+S.meals.length+" 餐。點開任一餐,看照片與菜單。"):"每一餐的照片與菜單。";
   if(!list.length){
     host.append(h("div",{class:"empty",text:S.err?("資料讀取失敗:"+S.err):S.loaded?(S.canEdit?"還沒有任何一餐。按右上角「新增一餐」,加上日期、菜單和照片。":"第一餐的紀錄還在整理中。"):"Loading…"}));
     return;
@@ -562,7 +562,7 @@ function attendanceGrid(list,key,lab){
   var g=h("div",{class:"gg",role:"img","aria-label":"每一餐的出席人數格狀圖"});
   g.style.gridTemplateColumns="auto repeat("+wk.length+",52px)";
   g.append(h("span"));
-  wk.forEach(function(w){var p=parse(w);g.append(h("span",{class:"wl num",text:(p.getMonth()+1)+"/"+p.getDate()}))});
+  wk.forEach(function(w){var p=parse(w);p.setDate(p.getDate()+1);g.append(h("span",{class:"wl num",text:(p.getMonth()+1)+"/"+p.getDate()}))});
   order.forEach(function(dw){
     g.append(h("span",{class:"rl",text:"週"+WD[dw]}));
     wk.forEach(function(w){
@@ -744,11 +744,10 @@ function buildSheet(){
   var inner=h("div",{class:"sheet-in"},
     h("div",{class:"sbar"},h("span",{class:"sdate",text:"Food for Good Ideas."}),h("button",{class:"btn small",type:"button",text:"關閉",onclick:closeSheet})),
     top);
-  if(S.open!=="__new"){inner.append(cmHost);inner.append(buildComposer())}
   var sheet=h("div",{class:"sheet",role:"dialog","aria-modal":"true","aria-label":"共餐內容"},inner);
   var scrim=h("div",{class:"scrim",onclick:function(e){if(e.target===scrim)closeSheet()}},sheet);
   l.append(scrim);
-  renderSheetTop();renderComments();
+  renderSheetTop();
 }
 function renderSheetTop(){
   var top=sheetEls.top;if(!top)return;clear(top);
