@@ -205,6 +205,7 @@ main,footer{position:relative;z-index:1}
 .thumbs button:focus-visible{outline:1px solid #F9F8F6;outline-offset:2px}
 .thumbs img,.thumbs video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
 .thumbs .pl{position:absolute;right:6px;bottom:4px;font:500 11px/1 var(--sans);color:#F9F8F6;text-shadow:0 1px 4px #000}
+body[data-fx="clean"] .strip{display:none}
 .strip{display:flex;overflow-x:auto;border-top:1px solid var(--line);scrollbar-width:thin}
 .clip{all:unset;box-sizing:border-box;flex:none;width:116px;padding:16px 16px 18px;border-left:1px solid var(--line);cursor:pointer;display:flex;flex-direction:column;gap:8px;color:var(--muted);transition:color 400ms var(--ease),background 400ms var(--ease)}
 .clip:first-child{border-left:0}
@@ -1233,9 +1234,10 @@ function stageInit(){
   lutInit();noiseInit();
   var fx=$("#fx");
   MODES.forEach(function(p){fx.append(h("button",{type:"button","data-m":p[0],"aria-pressed":String(p[0]===ST.mode),text:p[1],onclick:function(){
-    ST.mode=p[0];ST.flash=.8;ST.burst=1;ST.dirty=true;
+    ST.mode=p[0];document.body.setAttribute("data-fx",ST.mode);ST.flash=.8;ST.burst=1;ST.dirty=true;
     Array.prototype.forEach.call(fx.children,function(b){b.setAttribute("aria-pressed",String(b.getAttribute("data-m")===ST.mode))});
   }}))});
+  document.body.setAttribute("data-fx",ST.mode);
   var stg=$("#stage");
   function upd(e){
     var r=ST.cv.getBoundingClientRect();
